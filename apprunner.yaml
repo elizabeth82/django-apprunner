@@ -12,7 +12,7 @@ build:
     #   - python manage.py test
   env:
     - name: DJANGO_SETTINGS_MODULE
-      value: "erp_backend.config.develop"
+      value: "erp_backend.config.development"
 run:
   runtime-version: 3.8.16
   command: sh startup.sh

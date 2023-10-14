@@ -1,0 +1,1 @@
+from erp_backend.apps.nomenclators.cod_currency.serializers.currency_serializer import CurrencySerializer

@@ -14,10 +14,18 @@ from pathlib import Path
 import json
 import dj_database_url
 from os import environ
+import os
+
+def rel(*path):
+    """
+    Used to get the relative path for any file, combines with the BASEDIR
+    @param path: the relative path for the file
+    @return: absolute path to the file
+    """
+    return os.path.join(BASE_DIR, *path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -45,6 +53,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_spectacular',
+    'rest_framework',
+    "erp_backend.apps.nomenclators.cod_currency.apps.CurrencyConfig",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +69,42 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Url prefixes and settings
+API_PREFIX = "api"
+API_VERSION = "v1"
+PLATFORM_PREFIX = "_platform"
+DOCS_PREFIX = "docs"
+
+# For the docs
+CONTACT_EMAIL = "test@test.com"
+SAMPLE_AUTH_TOKEN = "sjdhskjh3454343"
+HOSTED_DOMAIN = "https://ohuru.tech/"
+API_DESCRIPTION_PATH = rel("docs", "README.md")
+
+# Mail
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Other settings
+COMMUNICATOR_NAME = "Admin"
+
+# Disable CORS check
+CORS_ORIGIN_ALLOW_ALL = True
+
 ROOT_URLCONF = 'erp_backend.urls'
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "PAGE_SIZE": 100,
+}
 
 TEMPLATES = [
     {
@@ -139,3 +185,12 @@ STORAGES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Swagger ERP360 API",
+    "DESCRIPTION": "API documentation for ERP360 API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True
+    # OTHER SETTINGS
+}

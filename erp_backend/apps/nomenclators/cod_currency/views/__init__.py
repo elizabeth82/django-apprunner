@@ -1,0 +1,1 @@
+from erp_backend.apps.nomenclators.cod_currency.views.currency_view import CurrencyViewSet
